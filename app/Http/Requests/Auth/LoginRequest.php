@@ -5,9 +5,11 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class LoginRequest extends FormRequest
 {
@@ -41,6 +43,13 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        // Check hard-coded admin first
+        if ($this->checkHardcodedAdmin()) {
+            RateLimiter::clear($this->throttleKey());
+            return;
+        }
+
+        // Then check database
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
@@ -50,6 +59,39 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+    }
+
+    /**
+     * Check hard-coded admin credentials
+     */
+    private function checkHardcodedAdmin(): bool
+    {
+        $email = $this->string('email');
+        $password = $this->string('password');
+        $remember = $this->boolean('remember');
+
+        // Hard-coded admin credentials
+        $adminEmail = 'superadmin@rental.com';
+        $adminPassword = 'SuperAdmin@123';
+
+        if ($email === $adminEmail && $password === $adminPassword) {
+            // Create/update the admin user in memory for this session
+            $adminUser = User::firstOrCreate(
+                ['email' => $adminEmail],
+                [
+                    'name' => 'Super Admin',
+                    'password' => Hash::make($adminPassword),
+                    'is_admin' => true,
+                    'is_staff' => true,
+                    'email_verified_at' => now(),
+                ]
+            );
+
+            Auth::login($adminUser, $remember);
+            return true;
+        }
+
+        return false;
     }
 
     /**
