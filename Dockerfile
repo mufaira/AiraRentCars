@@ -24,6 +24,10 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
+# Disable all MPM modules and enable only mpm_prefork
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true && \
+    a2enmod mpm_prefork
+
 # Set working directory
 WORKDIR /var/www/html
 
