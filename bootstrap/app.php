@@ -10,12 +10,16 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
+    ->withMiddleware(function (Middleware $middleware) {
+        // 1. Tambahkan baris ini untuk mengatasi Mixed Content di Railway
+        $middleware->trustProxies(at: '*');
+
+        // Ini alias punyamu yang sudah ada (biarkan saja)
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'admin.or.staff' => \App\Http\Middleware\AdminOrStaff::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
+    ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
