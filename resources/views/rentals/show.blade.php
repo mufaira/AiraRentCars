@@ -1,150 +1,186 @@
 <x-app-layout>
-<div class="container mx-auto px-4 py-8">
-    <a href="{{ route('rentals.index') }}" class="text-blue-600 hover:underline mb-4 inline-block">← Daftar Sewa Saya</a>
+<div class="min-h-screen bg-black text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Back Button -->
+        <a href="{{ route('rentals.index') }}" class="inline-flex items-center gap-2 text-gray-400 hover:text-[#f53003] transition mb-8">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Kembali ke Daftar Sewa
+        </a>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Rental Info -->
-        <div class="lg:col-span-2">
-            <div class="bg-white rounded shadow p-6 mb-6">
-                <h2 class="text-2xl font-bold mb-4">Detail Rental #{{ $rental->id }}</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Rental Info -->
+            <div class="lg:col-span-2">
+                <div class="bg-gradient-to-br from-[#1a1a1a] via-[#1a1a1a] to-[#0a0a0a] border border-white/10 rounded-2xl p-8 mb-6">
+                    <h2 class="text-3xl font-bold text-white mb-6">Detail Rental #{{ $rental->id }}</h2>
 
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <p class="text-gray-600 text-sm">Status Rental</p>
-                        <p class="font-bold text-lg">
-                            <span class="px-3 py-1 rounded text-sm 
-                                @if($rental->status === 'Pending') bg-yellow-100 text-yellow-800
-                                @elseif($rental->status === 'Paid') bg-blue-100 text-blue-800
-                                @elseif($rental->status === 'Active') bg-green-100 text-green-800
-                                @elseif($rental->status === 'Completed') bg-gray-100 text-gray-800
-                                @else bg-red-100 text-red-800
-                                @endif">
-                                {{ $rental->status }}
-                            </span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 text-sm">Mobil</p>
-                        <p class="font-bold text-lg">{{ $rental->car->name }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 text-sm">Tanggal Sewa</p>
-                        <p class="font-bold">{{ $rental->rental_date->format('d M Y') }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 text-sm">Tanggal Kembali</p>
-                        <p class="font-bold">{{ $rental->return_date->format('d M Y') }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 text-sm">Durasi</p>
-                        <p class="font-bold">{{ $rental->duration_days }} hari</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 text-sm">Total Harga</p>
-                        <p class="font-bold text-lg text-blue-600">Rp {{ number_format($rental->total_price, 0, ',', '.') }}</p>
-                    </div>
-                </div>
-
-                @if ($rental->notes)
-                    <div class="border-t pt-4">
-                        <p class="text-gray-600 text-sm mb-1">Catatan</p>
-                        <p>{{ $rental->notes }}</p>
-                    </div>
-                @endif
-            </div>
-        </div>
-
-        <!-- Payment Status -->
-        <div>
-            <div class="bg-white rounded shadow p-6">
-                <h3 class="text-lg font-bold mb-4">Status Pembayaran</h3>
-
-                @if ($rental->payment)
-                    <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-6 mb-6">
                         <div>
-                            <p class="text-gray-600 text-sm">Status</p>
-                            <p class="font-bold">
-                                <span class="px-3 py-1 rounded text-sm
-                                    @if($rental->payment->status === 'Pending') bg-yellow-100 text-yellow-800
-                                    @elseif($rental->payment->status === 'Verified') bg-green-100 text-green-800
-                                    @else bg-red-100 text-red-800
+                            <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Status Rental</p>
+                            <p class="font-bold text-lg">
+                                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold
+                                    @if($rental->status === 'Pending') bg-yellow-500/20 text-yellow-400 border border-yellow-500/50
+                                    @elseif($rental->status === 'Paid') bg-blue-500/20 text-blue-400 border border-blue-500/50
+                                    @elseif($rental->status === 'Active') bg-green-500/20 text-green-400 border border-green-500/50
+                                    @elseif($rental->status === 'Completed') bg-gray-500/20 text-gray-400 border border-gray-500/50
+                                    @else bg-red-500/20 text-red-400 border border-red-500/50
                                     @endif">
-                                    {{ $rental->payment->status }}
+                                    <span class="w-2 h-2 rounded-full
+                                        @if($rental->status === 'Pending') bg-yellow-400
+                                        @elseif($rental->status === 'Paid') bg-blue-400
+                                        @elseif($rental->status === 'Active') bg-green-400
+                                        @elseif($rental->status === 'Completed') bg-gray-400
+                                        @else bg-red-400
+                                        @endif"></span>
+                                    {{ $rental->status }}
                                 </span>
                             </p>
                         </div>
-
                         <div>
-                            <p class="text-gray-600 text-sm">Jumlah Pembayaran</p>
-                            <p class="font-bold text-lg">Rp {{ number_format($rental->payment->amount, 0, ',', '.') }}</p>
+                            <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Mobil</p>
+                            <p class="font-bold text-lg text-white">{{ $rental->car->name }}</p>
                         </div>
-
                         <div>
-                            <p class="text-gray-600 text-sm">Bukti Pembayaran</p>
-                            <img src="{{ asset('storage/' . $rental->payment->payment_proof_path) }}" 
-                                 alt="Bukti pembayaran" class="w-full rounded mt-2 border">
+                            <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Tanggal Sewa</p>
+                            <p class="font-bold text-white">{{ $rental->rental_date->format('d M Y') }}</p>
                         </div>
+                        <div>
+                            <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Tanggal Kembali</p>
+                            <p class="font-bold text-white">{{ $rental->return_date->format('d M Y') }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Durasi</p>
+                            <p class="font-bold text-white">{{ $rental->duration_days }} hari</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Total Harga</p>
+                            <p class="font-bold text-lg bg-gradient-to-r from-[#f53003] to-orange-500 bg-clip-text text-transparent">Rp {{ number_format($rental->total_price, 0, ',', '.') }}</p>
+                        </div>
+                    </div>
 
-                        @if ($rental->payment->admin_notes)
-                            <div class="bg-gray-100 p-3 rounded">
-                                <p class="text-gray-600 text-sm mb-1">Catatan Admin</p>
-                                <p class="text-sm">{{ $rental->payment->admin_notes }}</p>
+                    @if ($rental->notes)
+                        <div class="border-t border-white/10 pt-6">
+                            <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Catatan</p>
+                            <p class="text-gray-300">{{ $rental->notes }}</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Payment & Refund Status -->
+            <div>
+                <!-- Payment Card -->
+                <div class="bg-gradient-to-br from-[#1a1a1a] via-[#1a1a1a] to-[#0a0a0a] border border-white/10 rounded-2xl p-8 mb-6">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-[#f53003]" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
+                        </svg>
+                        Status Pembayaran
+                    </h3>
+
+                    @if ($rental->payment)
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Status</p>
+                                <p class="font-bold">
+                                    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold
+                                        @if($rental->payment->status === 'Pending') bg-yellow-500/20 text-yellow-400 border border-yellow-500/50
+                                        @elseif($rental->payment->status === 'Verified') bg-green-500/20 text-green-400 border border-green-500/50
+                                        @else bg-red-500/20 text-red-400 border border-red-500/50
+                                        @endif">
+                                        <span class="w-2 h-2 rounded-full
+                                            @if($rental->payment->status === 'Pending') bg-yellow-400
+                                            @elseif($rental->payment->status === 'Verified') bg-green-400
+                                            @else bg-red-400
+                                            @endif"></span>
+                                        {{ $rental->payment->status }}
+                                    </span>
+                                </p>
                             </div>
-                        @endif
 
-                        @if ($rental->payment->status === 'Pending')
-                            <a href="{{ route('rentals.payment', $rental) }}" class="block text-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                Update Pembayaran
+                            <div>
+                                <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Jumlah Pembayaran</p>
+                                <p class="font-bold text-lg text-white">Rp {{ number_format($rental->payment->amount, 0, ',', '.') }}</p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-400 text-sm uppercase tracking-wide mb-3">Bukti Pembayaran</p>
+                                <img src="{{ asset('storage/' . $rental->payment->payment_proof_path) }}" 
+                                     alt="Bukti pembayaran" class="w-full rounded-lg border border-white/10 hover:border-[#f53003]/50 transition">
+                            </div>
+
+                            @if ($rental->payment->admin_notes)
+                                <div class="bg-white/5 border border-white/10 p-4 rounded-lg">
+                                    <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Catatan Admin</p>
+                                    <p class="text-gray-300 text-sm">{{ $rental->payment->admin_notes }}</p>
+                                </div>
+                            @endif
+
+                            @if ($rental->payment->status === 'Pending')
+                                <a href="{{ route('rentals.payment', $rental) }}" class="block text-center bg-[#f53003] hover:bg-[#d63000] text-white px-4 py-3 rounded-lg font-bold transition transform hover:-translate-y-0.5 mt-4">
+                                    Update Pembayaran
+                                </a>
+                            @endif
+                        </div>
+                    @else
+                        <div class="bg-yellow-500/20 border border-yellow-500/50 rounded-lg p-4 mb-4">
+                            <p class="text-yellow-400 text-sm mb-4">Belum ada pembayaran</p>
+                            <a href="{{ route('rentals.payment', $rental) }}" class="block text-center bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg font-bold transition">
+                                Lakukan Pembayaran
                             </a>
-                        @endif
-                    </div>
-                @else
-                    <div class="bg-yellow-50 border border-yellow-200 rounded p-4">
-                        <p class="text-yellow-800 text-sm mb-3">Belum ada pembayaran</p>
-                        <a href="{{ route('rentals.payment', $rental) }}" class="block text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 font-semibold">
-                            Lakukan Pembayaran
-                        </a>
-                    </div>
-                @endif
+                        </div>
+                    @endif
+                </div>
 
                 <!-- Refund Section -->
-                <div class="mt-6 pt-6 border-t">
-                    <h3 class="text-lg font-bold mb-4">Refund / Pembatalan</h3>
+                <div class="bg-gradient-to-br from-[#1a1a1a] via-[#1a1a1a] to-[#0a0a0a] border border-white/10 rounded-2xl p-8">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-[#f53003]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Refund / Pembatalan
+                    </h3>
 
                     @if ($rental->refundRequest)
-                        <div class="bg-blue-50 border border-blue-200 rounded p-4">
-                            <div class="mb-3">
-                                <p class="text-gray-600 text-sm">Status Refund</p>
+                        <div class="bg-blue-500/20 border border-blue-500/50 rounded-lg p-4 mb-4">
+                            <div class="mb-4">
+                                <p class="text-gray-400 text-sm uppercase tracking-wide mb-2">Status Refund</p>
                                 <p class="font-bold">
-                                    <span class="px-3 py-1 rounded text-sm
-                                        @if($rental->refundRequest->status === 'Pending') bg-yellow-100 text-yellow-800
-                                        @elseif($rental->refundRequest->status === 'Approved') bg-green-100 text-green-800
-                                        @else bg-red-100 text-red-800
+                                    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold
+                                        @if($rental->refundRequest->status === 'Pending') bg-yellow-500/20 text-yellow-400 border border-yellow-500/50
+                                        @elseif($rental->refundRequest->status === 'Approved') bg-green-500/20 text-green-400 border border-green-500/50
+                                        @else bg-red-500/20 text-red-400 border border-red-500/50
                                         @endif">
+                                        <span class="w-2 h-2 rounded-full
+                                            @if($rental->refundRequest->status === 'Pending') bg-yellow-400
+                                            @elseif($rental->refundRequest->status === 'Approved') bg-green-400
+                                            @else bg-red-400
+                                            @endif"></span>
                                         {{ $rental->refundRequest->status }}
                                     </span>
                                 </p>
                             </div>
 
                             @if ($rental->refundRequest->admin_notes)
-                                <div class="bg-white p-3 rounded text-sm">
-                                    <p class="text-gray-600 mb-1"><strong>Catatan Admin:</strong></p>
-                                    <p>{{ $rental->refundRequest->admin_notes }}</p>
+                                <div class="bg-white/5 border border-white/10 p-3 rounded text-sm">
+                                    <p class="text-gray-400 mb-1"><strong>Catatan Admin:</strong></p>
+                                    <p class="text-gray-300">{{ $rental->refundRequest->admin_notes }}</p>
                                 </div>
                             @endif
                         </div>
                     @elseif ($rental->status === 'Pending' && !$rental->payment)
                         <!-- Cancel untuk yang belum bayar -->
-                        <form method="POST" action="{{ route('rentals.cancel', $rental) }}" style="display: inline;">
+                        <form method="POST" action="{{ route('rentals.cancel', $rental) }}" style="display: inline; width: 100%;">
                             @csrf
-                            <button type="submit" class="w-full bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 font-semibold"
+                            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-bold transition"
                                     onclick="return confirm('Anda yakin ingin membatalkan rental ini?')">
                                 Batalkan Pesanan
                             </button>
                         </form>
                     @elseif (in_array($rental->status, ['Paid', 'Active']))
                         <!-- Refund untuk yang sudah bayar -->
-                        <button onclick="confirmRefund()" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 font-semibold">
+                        <button onclick="confirmRefund()" class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-bold transition">
                             Ajukan Refund
                         </button>
 
@@ -156,7 +192,7 @@
                             }
                         </script>
                     @else
-                        <div class="bg-gray-100 rounded p-3 text-sm text-gray-600">
+                        <div class="bg-white/5 border border-white/10 rounded-lg p-4 text-sm text-gray-400">
                             Rental dengan status {{ $rental->status }} tidak dapat dibatalkan atau di-refund
                         </div>
                     @endif

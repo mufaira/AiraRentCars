@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @method User user()
+ * @method array validated(string|null $key = null, mixed $default = null)
+ */
 class ProfileUpdateRequest extends FormRequest
 {
     /**

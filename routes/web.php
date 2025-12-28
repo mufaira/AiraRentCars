@@ -17,6 +17,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    if (auth()->check() && auth()->user()->is_admin) {
+        return redirect()->route('admin.dashboard');
+    }
+
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -25,16 +29,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // User Personal Dashboard with Charts
-    Route::get('/dashboard-pribadi', [DashboardController::class, 'userDashboard'])->name('dashboard.user');
-
-    // Rental routes
-    Route::get('/rentals', [RentalController::class, 'index'])->name('rentals.index');
-    Route::get('/rentals/{rental}', [RentalController::class, 'show'])->name('rentals.show');
-    Route::get('/cars/{car}/rent', [RentalController::class, 'create'])->name('rentals.create');
-    Route::post('/cars/{car}/rent', [RentalController::class, 'store'])->name('rentals.store');
-    Route::get('/rentals/{rental}/payment', [RentalController::class, 'payment'])->name('rentals.payment');
-    Route::post('/rentals/{rental}/payment', [RentalController::class, 'storePayment'])->name('rentals.storePayment');
+    // Rental routes (customers only)
+    Route::get('/rentals', [RentalController::class, 'index'])->name('rentals.index')->middleware(\App\Http\Middleware\CustomerOnly::class);
+    Route::get('/rentals/{rental}', [RentalController::class, 'show'])->name('rentals.show')->middleware(\App\Http\Middleware\CustomerOnly::class);
+    Route::get('/cars/{car}/rent', [RentalController::class, 'create'])->name('rentals.create')->middleware(\App\Http\Middleware\CustomerOnly::class);
+    Route::post('/cars/{car}/rent', [RentalController::class, 'store'])->name('rentals.store')->middleware(\App\Http\Middleware\CustomerOnly::class);
+    Route::get('/rentals/{rental}/payment', [RentalController::class, 'payment'])->name('rentals.payment')->middleware(\App\Http\Middleware\CustomerOnly::class);
+    Route::post('/rentals/{rental}/payment', [RentalController::class, 'storePayment'])->name('rentals.storePayment')->middleware(\App\Http\Middleware\CustomerOnly::class);
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -60,21 +61,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('admin.blogs.edit');
     Route::put('/admin/blogs/{blog}', [BlogController::class, 'update'])->name('admin.blogs.update');
     Route::delete('/admin/blogs/{blog}', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
-});
-
-// Cars management - Admin & Staff only
-Route::middleware(['auth', 'admin.or.staff'])->group(function () {
-    Route::resource('/admin/cars', CarController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names(['index' => 'cars.admin.index', 'create' => 'cars.admin.create', 'store' => 'cars.admin.store', 'edit' => 'cars.admin.edit', 'update' => 'cars.admin.update', 'destroy' => 'cars.admin.destroy']);
-    Route::delete('/photos/{photo}', function(CarPhoto $photo) {
-        $carId = $photo->car_id;
-        \Illuminate\Support\Facades\Storage::disk('public')->delete($photo->photo_path);
-        $photo->delete();
-        return redirect()->route('cars.admin.edit', $carId)->with('success', 'Foto berhasil dihapus');
-    })->name('photos.delete');
-});
-
-// Admin only routes
-Route::middleware(['auth', 'admin'])->group(function () {
+    
     // Admin rental management
     Route::get('/admin/rentals', [RentalController::class, 'adminIndex'])->name('rentals.admin.index');
     Route::post('/admin/rentals/{rental}/payment', [RentalController::class, 'verifyPayment'])->name('rentals.verifyPayment');
@@ -94,10 +81,21 @@ Route::middleware(['auth', 'admin'])->group(function () {
     })->name('debug.form');
 });
 
-// User refund routes
-Route::post('/rentals/{rental}/cancel', [RefundController::class, 'cancel'])->name('rentals.cancel')->middleware('auth');
-Route::get('/rentals/{rental}/refund', [RefundController::class, 'create'])->name('refunds.create')->middleware('auth');
-Route::post('/rentals/{rental}/refund', [RefundController::class, 'store'])->name('refunds.store')->middleware('auth');
+// Cars management - Admin & Staff only
+Route::middleware(['auth', 'admin.or.staff'])->group(function () {
+    Route::resource('/admin/cars', CarController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names(['index' => 'cars.admin.index', 'create' => 'cars.admin.create', 'store' => 'cars.admin.store', 'edit' => 'cars.admin.edit', 'update' => 'cars.admin.update', 'destroy' => 'cars.admin.destroy']);
+    Route::delete('/photos/{photo}', function(CarPhoto $photo) {
+        $carId = $photo->car_id;
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($photo->photo_path);
+        $photo->delete();
+        return redirect()->route('cars.admin.edit', $carId)->with('success', 'Foto berhasil dihapus');
+    })->name('photos.delete');
+});
+
+// User refund routes (customers only)
+Route::post('/rentals/{rental}/cancel', [RefundController::class, 'cancel'])->name('rentals.cancel')->middleware('auth', \App\Http\Middleware\CustomerOnly::class);
+Route::get('/rentals/{rental}/refund', [RefundController::class, 'create'])->name('refunds.create')->middleware('auth', \App\Http\Middleware\CustomerOnly::class);
+Route::post('/rentals/{rental}/refund', [RefundController::class, 'store'])->name('refunds.store')->middleware('auth', \App\Http\Middleware\CustomerOnly::class);
 // User Cars Routes
 Route::get('/katalog', [UserCarController::class, 'index'])->name('cars.catalog');
 Route::get('/katalog/{car}', [UserCarController::class, 'show'])->name('cars.detail');
@@ -105,15 +103,5 @@ Route::get('/katalog/{car}', [UserCarController::class, 'show'])->name('cars.det
 // Blog Routes - Public
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blogs/{blog:slug}', [BlogController::class, 'show'])->name('blogs.show');
-
-// Blog Routes - Admin Management
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/blogs', [BlogController::class, 'index'])->name('admin.blogs.index');
-    Route::get('/admin/blogs/create', [BlogController::class, 'create'])->name('admin.blogs.create');
-    Route::post('/admin/blogs', [BlogController::class, 'store'])->name('admin.blogs.store');
-    Route::get('/admin/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('admin.blogs.edit');
-    Route::put('/admin/blogs/{blog}', [BlogController::class, 'update'])->name('admin.blogs.update');
-    Route::delete('/admin/blogs/{blog}', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
-});
 
 require __DIR__.'/auth.php';

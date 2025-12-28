@@ -1,318 +1,316 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-bold text-xl text-white leading-tight flex items-center gap-3">
+            <div class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+            </div>
+            <span class="tracking-wide uppercase font-mono text-sm text-orange-500">System //</span>
             {{ __('Dashboard Infografis') }}
         </h2>
     </x-slot>
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Header -->
-            <div class="mb-8">
-                <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2">📊 Dashboard Infografis</h1>
-                <p class="text-gray-600 dark:text-gray-400">Ringkasan data rental, pembatalan, dan okupansi sistem</p>
-            </div>
+    <style>
+        .bg-tech-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+        }
+        .card-hud {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .corner-accent::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid rgba(249, 115, 22, 0.5);
+            border-left: 2px solid rgba(249, 115, 22, 0.5);
+            border-top-left-radius: 4px;
+        }
+        .corner-accent::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            border-bottom: 2px solid rgba(249, 115, 22, 0.5);
+            border-right: 2px solid rgba(249, 115, 22, 0.5);
+            border-bottom-right-radius: 4px;
+        }
+    </style>
 
-            <!-- Top KPI Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <!-- Total Cars -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-blue-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm font-semibold">Total Mobil</p>
-                            <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $totalCars }}</p>
+    <div class="min-h-screen bg-[#050505] text-gray-100 py-8 relative overflow-hidden font-sans selection:bg-orange-500 selection:text-white">
+        
+        <div class="fixed inset-0 bg-tech-grid pointer-events-none z-0"></div>
+        <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="mb-10 relative group">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                <div class="relative card-hud rounded-2xl p-8 border border-white/5 flex flex-col md:flex-row items-center justify-between overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-mono text-xs text-right hidden md:block">
+                        SYS.VER.2.4<br>STATUS: OPTIMAL
+                    </div>
+                    
+                    <div class="z-10">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase tracking-wider">Analytics Mode</span>
                         </div>
-                        <div class="text-4xl">🚗</div>
+                        <h1 class="text-4xl font-extrabold text-white tracking-tight">
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Command Center</span>
+                        </h1>
+                        <p class="text-gray-400 mt-2 max-w-xl">
+                            Monitoring real-time armada dan performa bisnis. Data diperbarui otomatis.
+                        </p>
                     </div>
-                </div>
 
-                <!-- Available Cars -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-green-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm font-semibold">Mobil Tersedia</p>
-                            <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $availableCars }}</p>
+                    <div class="mt-6 md:mt-0 flex gap-4">
+                        <div class="bg-black/40 border border-white/10 rounded-xl px-5 py-3 text-center backdrop-blur-md">
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Total Aset</p>
+                            <p class="text-2xl font-mono font-bold text-white">{{ $totalCars }} <span class="text-sm text-gray-600">Unit</span></p>
                         </div>
-                        <div class="text-4xl">✓</div>
-                    </div>
-                </div>
-
-                <!-- Rented Cars -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-orange-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm font-semibold">Mobil Disewa</p>
-                            <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $rentedCars }}</p>
+                        <div class="bg-orange-600/10 border border-orange-500/20 rounded-xl px-5 py-3 text-center backdrop-blur-md">
+                            <p class="text-[10px] text-orange-400 uppercase tracking-widest">Active</p>
+                            <p class="text-2xl font-mono font-bold text-orange-500">{{ $activeRentals }} <span class="text-sm text-orange-500/50">Sewa</span></p>
                         </div>
-                        <div class="text-4xl">📋</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Cancellation Rate -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-red-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm font-semibold">Tingkat Pembatalan</p>
-                            <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $cancellationRate }}%</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                <div class="card-hud rounded-xl p-5 border border-white/5 relative group hover:-translate-y-1 transition duration-300 corner-accent">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2.5 bg-blue-500/10 rounded-lg text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                         </div>
-                        <div class="text-4xl">⚠️</div>
+                        <span class="text-[10px] font-mono text-gray-500 group-hover:text-blue-400 transition">FLEET_ID_01</span>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 text-xs uppercase tracking-widest font-semibold">Total Armada</p>
+                        <h3 class="text-3xl font-bold text-white mt-1 group-hover:text-blue-400 transition">{{ $totalCars }}</h3>
+                    </div>
+                </div>
+
+                <div class="card-hud rounded-xl p-5 border border-white/5 relative group hover:-translate-y-1 transition duration-300 corner-accent">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <span class="text-[10px] font-mono text-gray-500 group-hover:text-emerald-400 transition">READY_STS</span>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 text-xs uppercase tracking-widest font-semibold">Tersedia</p>
+                        <h3 class="text-3xl font-bold text-white mt-1 group-hover:text-emerald-400 transition">{{ $availableCars }}</h3>
+                    </div>
+                    <div class="w-full bg-gray-800 h-1.5 mt-3 rounded-full overflow-hidden">
+                        @php
+                            $availablePercentage = (int)min(100, max(0, $availableCarsPercent));
+                        @endphp
+                        <div class="bg-emerald-500 h-1.5 rounded-full transition-all duration-500" style="--w: {{ $availablePercentage }}%; width: var(--w);"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">{{ round($availableCarsPercent, 1) }}% dari total armada</p>
+                </div>
+
+                <div class="card-hud rounded-xl p-5 border border-white/5 relative group hover:-translate-y-1 transition duration-300 corner-accent">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2.5 bg-orange-500/10 rounded-lg text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <span class="text-[10px] font-mono text-gray-500 group-hover:text-orange-400 transition">ACTIVE_OP</span>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 text-xs uppercase tracking-widest font-semibold">Sedang Disewa</p>
+                        <h3 class="text-3xl font-bold text-white mt-1 group-hover:text-orange-400 transition">{{ $rentedCars }}</h3>
+                    </div>
+                    <div class="w-full bg-gray-800 h-1.5 mt-3 rounded-full overflow-hidden">
+                        @php
+                            $rentedPercentage = (int)min(100, max(0, $rentedCarsPercent));
+                        @endphp
+                        <div class="bg-orange-500 h-1.5 rounded-full transition-all duration-500" style="--w: {{ $rentedPercentage }}%; width: var(--w);"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">{{ round($rentedCarsPercent, 1) }}% dari total armada</p>
+                </div>
+
+                <div class="card-hud rounded-xl p-5 border border-white/5 relative group hover:-translate-y-1 transition duration-300 corner-accent">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2.5 bg-red-500/10 rounded-lg text-red-400 group-hover:bg-red-500 group-hover:text-white transition shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        </div>
+                        <span class="text-[10px] font-mono text-gray-500 group-hover:text-red-400 transition">ALERT_LVL</span>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 text-xs uppercase tracking-widest font-semibold">Tingkat Batal</p>
+                        <h3 class="text-3xl font-bold text-white mt-1 group-hover:text-red-400 transition">{{ $cancellationRate }}%</h3>
                     </div>
                 </div>
             </div>
 
-            <!-- Rental Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-purple-500">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm font-semibold mb-2">Total Rental</p>
-                    <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $totalRentals }}</p>
-                    <div class="mt-4 text-sm">
-                        <span class="text-green-600 dark:text-green-400">✓ Aktif: {{ $activeRentals }}</span> | 
-                        <span class="text-blue-600 dark:text-blue-400">Selesai: {{ $completedRentals }}</span>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="lg:col-span-2 card-hud rounded-2xl p-6 border border-white/5">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span class="w-1 h-5 bg-orange-500 rounded-full"></span>
+                            Trafik Rental
+                        </h3>
+                        <div class="flex gap-2">
+                             <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400 font-mono">7 HARI</span>
+                        </div>
+                    </div>
+                    <div class="relative h-72 w-full">
+                        <canvas id="trendChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-pink-500">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm font-semibold mb-2">Permintaan Refund</p>
-                    <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $totalRefunds }}</p>
-                    <div class="mt-4 text-sm">
-                        <span class="text-green-600 dark:text-green-400">✓ Disetujui: {{ $approvedRefunds }}</span> | 
-                        <span class="text-yellow-600 dark:text-yellow-400">Pending: {{ $pendingRefunds }}</span>
+                <div class="lg:col-span-1 card-hud rounded-2xl p-6 border border-white/5 flex flex-col">
+                    <div class="flex items-center justify-between mb-2">
+                         <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span class="w-1 h-5 bg-blue-500 rounded-full"></span>
+                            Status Real-time
+                        </h3>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-xs text-gray-400">
+                        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Selesai</div>
+                        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-500"></span> Berjalan</div>
+                        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> Batal</div>
+                        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> Pending</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-indigo-500">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm font-semibold mb-2">Statistik Cepat</p>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-4">
-                        <span class="font-semibold">Tingkat Pendapatan:</span> 
-                        <span class="text-indigo-600 dark:text-indigo-400">{{ $completedRentals > 0 ? round(($completedRentals / $totalRentals) * 100, 1) : 0 }}%</span>
-                    </p>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">
-                        <span class="font-semibold">Rata-rata Rental/Hari:</span> 
-                        <span class="text-indigo-600 dark:text-indigo-400">{{ $totalRentals > 0 ? round($totalRentals / 30, 1) : 0 }}</span>
-                    </p>
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="bg-[#0f0f0f] border border-white/5 p-4 rounded-xl text-center">
+                    <p class="text-[10px] text-gray-500 uppercase">Refund Req</p>
+                    <p class="text-xl font-bold text-white">{{ $totalRefunds }}</p>
+                </div>
+                <div class="bg-[#0f0f0f] border border-white/5 p-4 rounded-xl text-center">
+                    <p class="text-[10px] text-gray-500 uppercase">Success Rate</p>
+                    <p class="text-xl font-bold text-indigo-400">{{ $completedRentals > 0 ? round(($completedRentals / $totalRentals) * 100) : 0 }}%</p>
+                </div>
+                <div class="bg-[#0f0f0f] border border-white/5 p-4 rounded-xl text-center">
+                    <p class="text-[10px] text-gray-500 uppercase">Avg/Day</p>
+                    <p class="text-xl font-bold text-orange-400">{{ $totalRentals > 0 ? round($totalRentals / 30, 1) : 0 }}</p>
                 </div>
             </div>
 
-            <!-- Charts Row 1 -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <!-- Rental Trends Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">📈 Tren Rental (7 Hari Terakhir)</h3>
-                    <canvas id="trendChart" height="80"></canvas>
+            <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 font-mono">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    SYSTEM ONLINE // DRIVEHUB ADMIN v3.0
                 </div>
-
-                <!-- Rental Status Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">🔄 Distribusi Status Rental</h3>
-                    <canvas id="statusChart" height="80"></canvas>
+                <div class="mt-2 md:mt-0">
+                    SECURE CONNECTION ENCRYPTED
                 </div>
             </div>
 
-            <!-- Charts Row 2 -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <!-- Occupancy Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">🏎️ Tingkat Okupansi Mobil (Top 10)</h3>
-                    <canvas id="occupancyChart" height="100"></canvas>
-                </div>
-
-                <!-- Monthly Revenue Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">💰 Pendapatan Bulanan</h3>
-                    <canvas id="revenueChart" height="100"></canvas>
-                </div>
-            </div>
-
-            <!-- Summary Section -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div class="bg-gradient-to-br from-blue-50 dark:from-blue-900/20 to-blue-100 dark:to-blue-900/40 rounded-lg shadow-md p-6">
-                    <h3 class="font-bold text-blue-900 dark:text-blue-100 mb-3">📊 Ringkasan Mobil</h3>
-                    <ul class="text-sm text-blue-800 dark:text-blue-300 space-y-2">
-                        <li>• Total Mobil: <strong>{{ $totalCars }}</strong></li>
-                        <li>• Tersedia: <strong>{{ $availableCars }}</strong> ({{ $totalCars > 0 ? round(($availableCars / $totalCars) * 100) : 0 }}%)</li>
-                        <li>• Sedang Disewa: <strong>{{ $rentedCars }}</strong> ({{ $totalCars > 0 ? round(($rentedCars / $totalCars) * 100) : 0 }}%)</li>
-                    </ul>
-                </div>
-
-                <div class="bg-gradient-to-br from-green-50 dark:from-green-900/20 to-green-100 dark:to-green-900/40 rounded-lg shadow-md p-6">
-                    <h3 class="font-bold text-green-900 dark:text-green-100 mb-3">📋 Ringkasan Rental</h3>
-                    <ul class="text-sm text-green-800 dark:text-green-300 space-y-2">
-                        <li>• Total Rental: <strong>{{ $totalRentals }}</strong></li>
-                        <li>• Sedang Aktif: <strong>{{ $activeRentals }}</strong></li>
-                        <li>• Selesai: <strong>{{ $completedRentals }}</strong></li>
-                    </ul>
-                </div>
-
-                <div class="bg-gradient-to-br from-red-50 dark:from-red-900/20 to-red-100 dark:to-red-900/40 rounded-lg shadow-md p-6">
-                    <h3 class="font-bold text-red-900 dark:text-red-100 mb-3">⚠️ Ringkasan Pembatalan</h3>
-                    <ul class="text-sm text-red-800 dark:text-red-300 space-y-2">
-                        <li>• Total Permintaan Refund: <strong>{{ $totalRefunds }}</strong></li>
-                        <li>• Tingkat Pembatalan: <strong>{{ $cancellationRate }}%</strong></li>
-                        <li>• Disetujui: <strong>{{ $approvedRefunds }}</strong></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Info Box -->
-            <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-lg mb-8">
-                <h3 class="font-bold text-blue-900 dark:text-blue-100 mb-2">ℹ️ Tentang Dashboard Ini</h3>
-                <p class="text-blue-800 dark:text-blue-300 text-sm">
-                    Dashboard ini menampilkan data ringkas dari sistem rental mobil. Data diperbarui secara real-time dan mencakup 
-                    statistik mobil, rental, pembatalan, dan pendapatan. Grafik menunjukkan tren 7 hari terakhir dan data pendapatan.
-                </p>
-            </div>
         </div>
     </div>
 
-    <!-- Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
     <script>
-        // Trend Chart
-        const trendCtx = document.getElementById('trendChart').getContext('2d');
-        const trendLabels = JSON.parse('{{ json_encode($trendDates) }}');
-        const trendData = JSON.parse('{{ json_encode($trendCounts) }}');
-        new Chart(trendCtx, {
-            type: 'line',
-            data: {
-                labels: trendLabels,
-                datasets: [{
-                    label: 'Jumlah Rental',
-                    data: trendData,
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#3b82f6',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }
-                }
-            }
-        });
+        // Global Chart Defaults for "Cyber" Theme
+        Chart.defaults.color = '#64748b'; 
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.05)';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.scale.grid.display = false; // Minimal grid lines
 
-        // Status Chart
-        const statusCtx = document.getElementById('statusChart').getContext('2d');
-        const statusLabels = JSON.parse('{{ json_encode($statusLabels) }}');
-        const statusCounts = JSON.parse('{{ json_encode($statusCounts) }}');
-        new Chart(statusCtx, {
-            type: 'doughnut',
-            data: {
-                labels: statusLabels,
-                datasets: [{
-                    data: statusCounts,
-                    backgroundColor: [
-                        '#10b981',
-                        '#f59e0b',
-                        '#ef4444',
-                        '#8b5cf6',
-                        '#06b6d4'
-                    ],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
+        // Safe JSON parsing function
+        function safeJsonParse(data, defaultValue = []) {
+            try {
+                const parsed = typeof data === 'string' ? JSON.parse(data) : data;
+                return Array.isArray(parsed) && parsed.length > 0 ? parsed : defaultValue;
+            } catch (e) {
+                console.error('JSON Parse Error:', e);
+                return defaultValue;
             }
-        });
+        }
 
-        // Occupancy Chart
-        const occupancyCtx = document.getElementById('occupancyChart').getContext('2d');
-        const occupancyNames = JSON.parse('{{ json_encode($occupancyNames) }}');
-        const occupancyCounts = JSON.parse('{{ json_encode($occupancyCounts) }}');
-        new Chart(occupancyCtx, {
-            type: 'bar',
-            data: {
-                labels: occupancyNames,
-                datasets: [{
-                    label: 'Jumlah Rental Aktif',
-                    data: occupancyCounts,
-                    backgroundColor: '#06b6d4',
-                    borderColor: '#0891b2',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: true
-                    }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }
-                }
-            }
-        });
+        // 1. TREND CHART (Area Glow)
+        const trendCtx = document.getElementById('trendChart');
+        if (trendCtx) {
+            const trendLabels = safeJsonParse('{{ json_encode($trendDates ?? []) }}', ['Belum Ada Data']);
+            const trendData = safeJsonParse('{{ json_encode($trendCounts ?? []) }}', [0]);
+            
+            const ctx = trendCtx.getContext('2d');
+            let trendGrad = ctx.createLinearGradient(0, 0, 0, 400);
+            trendGrad.addColorStop(0, 'rgba(249, 115, 22, 0.4)'); // Orange glow
+            trendGrad.addColorStop(1, 'rgba(249, 115, 22, 0)');
 
-        // Revenue Chart
-        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-        const monthlyLabels = JSON.parse('{{ json_encode($monthlyLabels) }}');
-        const monthlyValues = JSON.parse('{{ json_encode($monthlyValues) }}');
-        new Chart(revenueCtx, {
-            type: 'bar',
-            data: {
-                labels: monthlyLabels,
-                datasets: [{
-                    label: 'Pendapatan (Rp)',
-                    data: monthlyValues,
-                    backgroundColor: '#f59e0b',
-                    borderColor: '#d97706',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: true
-                    }
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trendLabels,
+                    datasets: [{
+                        label: 'Rental',
+                        data: trendData,
+                        borderColor: '#f97316',
+                        borderWidth: 2,
+                        backgroundColor: trendGrad,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#000',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return 'Rp ' + value.toLocaleString('id-ID');
-                            }
-                        }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { borderDash: [2, 4], color: 'rgba(255,255,255,0.05)' }, beginAtZero: true },
+                        x: { grid: { display: false } }
                     }
                 }
-            }
-        });
+            });
+        }
+
+        // 2. STATUS CHART (Hollow Doughnut)
+        const statusCtx = document.getElementById('statusChart');
+        if (statusCtx) {
+            const statusLabels = safeJsonParse('{{ json_encode($statusLabels ?? []) }}', ['Pending', 'Active', 'Completed']);
+            const statusCounts = safeJsonParse('{{ json_encode($statusCounts ?? []) }}', [1, 1, 1]);
+            
+            const ctx = statusCtx.getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: statusLabels,
+                    datasets: [{
+                        data: statusCounts,
+                        backgroundColor: ['#eab308', '#f97316', '#10b981', '#ef4444', '#6366f1'],
+                        borderColor: '#141414', // Match card bg
+                        borderWidth: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '80%', // Thinner ring
+                    plugins: { legend: { display: true, position: 'bottom' } }
+                }
+            });
+        }
+
+        // 3. REVENUE CHART (Gradient Bars) - REMOVED
+        // const revenueCtx = document.getElementById('revenueChart');
+
+        // 4. OCCUPANCY CHART (Horizontal) - REMOVED
+        // const occCtx = document.getElementById('occupancyChart');
     </script>
 </x-app-layout>
