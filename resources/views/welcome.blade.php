@@ -94,13 +94,13 @@
 
                 <!-- Mobile Menu -->
                 <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200/50 dark:border-white/10 py-4 space-y-3">
-                    <a href="#home" class="block px-4 py-2 text-sm font-medium hover:text-[#f53003] hover:bg-gray-100/10 rounded transition">Beranda</a>
-                    <a href="#features" class="block px-4 py-2 text-sm font-medium hover:text-[#f53003] hover:bg-gray-100/10 rounded transition">Fitur</a>
-                    <a href="{{ route('cars.catalog') }}" class="block px-4 py-2 text-sm font-medium hover:text-[#f53003] hover:bg-gray-100/10 rounded transition">Katalog</a>
-                    <a href="#reservasi" class="block px-4 py-2 text-sm font-medium hover:text-[#f53003] hover:bg-gray-100/10 rounded transition">Cara Pesan</a>
+                    <a href="#home" class="block px-4 py-2 text-sm font-medium text-white dark:text-white hover:text-[#f53003] hover:bg-gray-900/10 dark:hover:bg-gray-100/10 rounded transition">Beranda</a>
+                    <a href="#features" class="block px-4 py-2 text-sm font-medium text-white dark:text-white hover:text-[#f53003] hover:bg-gray-900/10 dark:hover:bg-gray-100/10 rounded transition">Fitur</a>
+                    <a href="{{ route('cars.catalog') }}" class="block px-4 py-2 text-sm font-medium text-white dark:text-white hover:text-[#f53003] hover:bg-gray-900/10 dark:hover:bg-gray-100/10 rounded transition">Katalog</a>
+                    <a href="#reservasi" class="block px-4 py-2 text-sm font-medium text-white dark:text-white hover:text-[#f53003] hover:bg-gray-900/10 dark:hover:bg-gray-100/10 rounded transition">Cara Pesan</a>
                     @guest
                         <div class="border-t border-gray-200/50 dark:border-white/10 pt-3 space-y-2">
-                            <a href="{{ route('login') }}" class="block px-4 py-2 text-sm font-bold text-gray-900 dark:text-white hover:text-[#f53003] transition">Masuk</a>
+                            <a href="{{ route('login') }}" class="block px-4 py-2 text-sm font-bold text-white dark:text-white hover:text-[#f53003] transition">Masuk</a>
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="block px-4 py-2 text-sm font-bold text-white bg-[#f53003] rounded-lg hover:bg-[#d63000] transition">Daftar</a>
                             @endif
