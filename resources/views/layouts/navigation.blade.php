@@ -143,12 +143,12 @@
                 @endauth
 
                 <!-- Mobile menu button - Only on Mobile -->
-                <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-900 dark:text-white hover:text-[#f53003] hover:bg-white/5 transition flex-shrink-0">
-                    <svg :class="open ? 'hidden' : 'block'" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M3 6a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V6zM3 12a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM3 18a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" />
+                <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition flex-shrink-0">
+                    <svg :class="open ? 'hidden' : 'block'" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                    <svg :class="open ? 'block' : 'hidden'" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M4.293 4.293a1 1 0 011.414 0L12 10.586l6.293-6.293a1 1 0 111.414 1.414L13.414 12l6.293 6.293a1 1 0 01-1.414 1.414L12 13.414l-6.293 6.293a1 1 0 01-1.414-1.414L10.586 12 4.293 5.707a1 1 0 010-1.414z" />
+                    <svg :class="open ? 'block' : 'hidden'" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
 
