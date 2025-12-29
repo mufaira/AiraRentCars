@@ -258,10 +258,10 @@
                 ?>
 
                 <?php if($cars->count() > 0): ?>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                         <?php $__currentLoopData = $cars; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $car): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="group relative bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-300 hover:-translate-y-2 border border-transparent dark:border-white/5 dark:hover:border-[#f53003]/30">
-                                <div class="relative h-48 w-full overflow-hidden bg-gray-800">
+                                <div class="relative h-40 sm:h-44 md:h-48 w-full overflow-hidden bg-gray-800">
                                     <?php if($car->featured_photo): ?>
                                         <img src="<?php echo e(asset('storage/' . $car->featured_photo->photo_path)); ?>" alt="<?php echo e($car->name); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                                     <?php else: ?>
@@ -278,9 +278,9 @@
                                     </div>
                                 </div>
                                 
-                                <div class="p-6">
-                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2"><?php echo e($car->name); ?></h3>
-                                    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
+                                <div class="p-3 sm:p-4 md:p-6">
+                                    <h3 class="text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-white mb-2"><?php echo e($car->name); ?></h3>
+                                    <div class="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4 sm:mb-6">
                                         <span class="flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                             <?php echo e($car->capacity); ?> Kursi
@@ -292,10 +292,10 @@
                                         </span>
                                     </div>
                                     
-                                    <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-white/10">
+                                    <div class="flex items-center justify-between pt-3 sm:pt-4 border-t border-gray-200 dark:border-white/10">
                                         <div>
                                             <p class="text-xs text-gray-400 uppercase">Harga per Hari</p>
-                                            <p class="text-xl font-extrabold text-[#f53003]">Rp <?php echo e(number_format($car->price_per_day, 0, ',', '.')); ?></p>
+                                            <p class="text-base sm:text-lg md:text-xl font-extrabold text-[#f53003]">Rp <?php echo e(number_format($car->price_per_day, 0, ',', '.')); ?></p>
                                         </div>
                                         <a href="<?php echo e(route('cars.detail', $car->id)); ?>" class="p-3 bg-black dark:bg-white text-white dark:text-black rounded-xl hover:bg-[#f53003] hover:text-white dark:hover:bg-[#f53003] dark:hover:text-white transition shadow-lg">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
@@ -328,31 +328,31 @@
                     <p class="text-gray-400">4 Langkah sederhana menuju perjalanan impian Anda</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-8 relative">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 relative">
                     <div class="hidden md:block absolute top-12 left-[10%] w-[80%] h-0.5 bg-gradient-to-r from-gray-800 via-[#f53003] to-gray-800 z-0"></div>
 
                     <div class="relative z-10 text-center">
-                        <div class="w-24 h-24 mx-auto bg-[#1b1b18] border-4 border-[#f53003] rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-[0_0_20px_rgba(245,48,3,0.3)]">1</div>
-                        <h3 class="text-xl font-bold mb-2">Pilih Mobil</h3>
-                        <p class="text-sm text-gray-400 px-4">Telusuri katalog lengkap kami dan pilih kendaraan yang pas.</p>
+                        <div class="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 mx-auto bg-[#1b1b18] border-4 border-[#f53003] rounded-full flex items-center justify-center text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 md:mb-6 shadow-[0_0_20px_rgba(245,48,3,0.3)]">1</div>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">Pilih Mobil</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 px-2 sm:px-4">Telusuri katalog lengkap kami dan pilih kendaraan yang pas.</p>
                     </div>
 
                     <div class="relative z-10 text-center">
-                        <div class="w-24 h-24 mx-auto bg-[#1b1b18] border-4 border-gray-700 hover:border-[#f53003] transition duration-300 rounded-full flex items-center justify-center text-3xl font-bold mb-6">2</div>
-                        <h3 class="text-xl font-bold mb-2">Atur Jadwal</h3>
-                        <p class="text-sm text-gray-400 px-4">Tentukan tanggal pengambilan dan pengembalian.</p>
+                        <div class="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 mx-auto bg-[#1b1b18] border-4 border-gray-700 hover:border-[#f53003] transition duration-300 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 md:mb-6">2</div>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">Atur Jadwal</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 px-2 sm:px-4">Tentukan tanggal pengambilan dan pengembalian.</p>
                     </div>
 
                     <div class="relative z-10 text-center">
-                        <div class="w-24 h-24 mx-auto bg-[#1b1b18] border-4 border-gray-700 hover:border-[#f53003] transition duration-300 rounded-full flex items-center justify-center text-3xl font-bold mb-6">3</div>
-                        <h3 class="text-xl font-bold mb-2">Booking</h3>
-                        <p class="text-sm text-gray-400 px-4">Isi data diri singkat dan lakukan pembayaran aman.</p>
+                        <div class="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 mx-auto bg-[#1b1b18] border-4 border-gray-700 hover:border-[#f53003] transition duration-300 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 md:mb-6">3</div>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">Booking</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 px-2 sm:px-4">Isi data diri singkat dan lakukan pembayaran aman.</p>
                     </div>
 
                     <div class="relative z-10 text-center">
-                        <div class="w-24 h-24 mx-auto bg-[#1b1b18] border-4 border-gray-700 hover:border-[#f53003] transition duration-300 rounded-full flex items-center justify-center text-3xl font-bold mb-6">4</div>
-                        <h3 class="text-xl font-bold mb-2">Jalan!</h3>
-                        <p class="text-sm text-gray-400 px-4">Terima kunci mobil dan nikmati perjalanan Anda.</p>
+                        <div class="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 mx-auto bg-[#1b1b18] border-4 border-gray-700 hover:border-[#f53003] transition duration-300 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 md:mb-6">4</div>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">Jalan!</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 px-2 sm:px-4">Terima kunci mobil dan nikmati perjalanan Anda.</p>
                     </div>
                 </div>
             </div>
@@ -369,10 +369,10 @@
                     $latestBlogs = \App\Models\Blog::where('is_published', true)->latest('published_at')->limit(3)->get();
                 ?>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                     <?php $__empty_1 = true; $__currentLoopData = $latestBlogs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $blog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <article class="flex flex-col group h-full">
-                            <div class="relative overflow-hidden rounded-2xl mb-4 h-64">
+                            <div class="relative overflow-hidden rounded-2xl mb-4 h-40 sm:h-48 md:h-64">
                                 <?php if($blog->featured_image): ?>
                                     <img src="<?php echo e(asset('storage/' . $blog->featured_image)); ?>" alt="<?php echo e($blog->title); ?>" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
                                 <?php else: ?>
@@ -386,7 +386,7 @@
                                     <span>&bull;</span>
                                     <span><?php echo e($blog->published_at->format('d M Y')); ?></span>
                                 </div>
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#f53003] transition">
+                                <h3 class="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#f53003] transition">
                                     <a href="<?php echo e(route('blogs.show', $blog->slug)); ?>"><?php echo e($blog->title); ?></a>
                                 </h3>
                             </div>
@@ -415,10 +415,10 @@
 
         <footer class="bg-black text-gray-400 py-16 lg:py-20 border-t border-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 mb-12">
                     <div>
-                        <div class="text-2xl font-extrabold text-white mb-6">Drive<span class="text-[#f53003]">Hub</span></div>
-                        <p class="mb-6 leading-relaxed text-gray-400">Platform penyewaan mobil paling inovatif di Indonesia. Kami mengutamakan kenyamanan, keamanan, dan kepuasan pelanggan di setiap kilometer.</p>
+                        <div class="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-4 sm:mb-6">Drive<span class="text-[#f53003]">Hub</span></div>
+                        <p class="mb-4 sm:mb-6 leading-relaxed text-gray-400 text-xs sm:text-sm">Platform penyewaan mobil paling inovatif di Indonesia. Kami mengutamakan kenyamanan, keamanan, dan kepuasan pelanggan di setiap kilometer.</p>
                     </div>
                     <div>
                         <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Navigasi</h4>
