@@ -148,7 +148,7 @@
                         <!-- Catatan Admin -->
                         <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
                             <label class="block text-base font-bold mb-3 text-yellow-900">📝 Catatan Verifikasi (opsional)</label>
-                            <textarea id="adminNotes" placeholder="Masukkan catatan untuk disetujui atau ditolak..." class="w-full border-2 border-yellow-300 rounded-lg px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent" rows="3"></textarea>
+                            <textarea id="adminNotes" placeholder="Masukkan catatan untuk disetujui atau ditolak..." class="w-full border-2 border-yellow-300 rounded-lg px-4 py-3 text-gray-900 font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-vertical min-h-32" rows="5"></textarea>
                         </div>
                     </div>
                 `;
