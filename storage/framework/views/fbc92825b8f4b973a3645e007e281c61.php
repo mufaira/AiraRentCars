@@ -71,7 +71,7 @@
                                 Dashboard
                             </a>
                         <?php else: ?>
-                            <a href="<?php echo e(route('login')); ?>" class="hidden sm:block text-sm font-bold text-gray-900 dark:text-white hover:text-[#f53003] transition">
+                            <a href="<?php echo e(route('login')); ?>" class="hidden sm:block text-sm font-bold text-white dark:text-white hover:text-[#f53003] transition">
                                 Masuk
                             </a>
                             <?php if(Route::has('register')): ?>
