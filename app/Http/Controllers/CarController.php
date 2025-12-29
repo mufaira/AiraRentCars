@@ -90,47 +90,91 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        Log::info('Car update request received', [
-            'car_id' => $car->id,
-            'request_data' => $request->all(),
-        ]);
-        
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price_per_day' => 'required|numeric|min:0',
-            'transmission' => 'required|in:Manual,Matic',
-            'capacity' => 'required|integer|min:1',
-            'status' => 'required|in:Tersedia,Disewa',
-            'is_active' => 'nullable|in:0,1',
-            'is_featured' => 'nullable',
-            'photos' => 'nullable|array',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        Log::info('Car update validation passed', [
-            'validated_data' => $validated,
-        ]);
-
-        // Convert is_active from select value
-        $validated['is_active'] = (int) ($validated['is_active'] ?? 1);
-        
-        // Convert is_featured checkbox to boolean (0 or 1)
-        $validated['is_featured'] = $request->has('is_featured') ? 1 : 0;
-
-        $car->update($validated);
-
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('cars', 'public');
-                CarPhoto::create([
+        try {
+            // Verify this is a PUT/PATCH request and not accidental DELETE
+            if (!in_array($request->getMethod(), ['PUT', 'PATCH'])) {
+                Log::warning('Invalid request method for car update', [
                     'car_id' => $car->id,
-                    'photo_path' => $path,
+                    'method' => $request->getMethod(),
                 ]);
+                return response()->json(['error' => 'Invalid request method'], 405);
             }
-        }
 
-        return redirect()->route('cars.admin.edit', $car)->with('success', 'Mobil berhasil diperbarui');
+            Log::info('Car update request received', [
+                'car_id' => $car->id,
+                'method' => $request->getMethod(),
+                'route' => $request->route()->getName(),
+            ]);
+            
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'price_per_day' => 'required|numeric|min:0',
+                'transmission' => 'required|in:Manual,Matic',
+                'capacity' => 'required|integer|min:1',
+                'status' => 'required|in:Tersedia,Disewa',
+                'is_active' => 'required|in:0,1',
+                'is_featured' => 'nullable',
+                'photos' => 'nullable|array',
+                'photos.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            Log::info('Validation passed, updating car', [
+                'car_id' => $car->id,
+                'name' => $validated['name'],
+                'price' => $validated['price_per_day'],
+                'status' => $validated['status'],
+            ]);
+
+            // Convert is_active to integer
+            $validated['is_active'] = (int) $validated['is_active'];
+            
+            // Convert is_featured checkbox to boolean (0 or 1)
+            $validated['is_featured'] = $request->has('is_featured') ? 1 : 0;
+
+            // Update car basic info
+            $updated = $car->update($validated);
+            Log::info('Car updated successfully', ['car_id' => $car->id, 'updated' => $updated]);
+
+            // Delete all existing photos (if user wants to change them, they upload new ones)
+            foreach ($car->photos as $photo) {
+                try {
+                    if (Storage::disk('public')->exists($photo->photo_path)) {
+                        Storage::disk('public')->delete($photo->photo_path);
+                        Log::info('Old photo deleted during update', ['path' => $photo->photo_path]);
+                    }
+                    $photo->delete();
+                } catch (\Exception $e) {
+                    Log::warning('Error deleting photo', ['photo_id' => $photo->id, 'error' => $e->getMessage()]);
+                }
+            }
+
+            // Handle new photo uploads
+            if ($request->hasFile('photos')) {
+                foreach ($request->file('photos') as $photo) {
+                    try {
+                        $path = $photo->store('cars', 'public');
+                        CarPhoto::create([
+                            'car_id' => $car->id,
+                            'photo_path' => $path,
+                        ]);
+                        Log::info('New photo uploaded', ['car_id' => $car->id, 'path' => $path]);
+                    } catch (\Exception $e) {
+                        Log::error('Photo upload failed', ['car_id' => $car->id, 'error' => $e->getMessage()]);
+                    }
+                }
+            }
+
+            Log::info('Car update completed successfully', ['car_id' => $car->id]);
+            return redirect()->route('cars.admin.edit', $car)->with('success', 'Mobil berhasil diperbarui');
+        } catch (\Exception $e) {
+            Log::error('Car update failed', [
+                'car_id' => $car->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->route('cars.admin.edit', $car)->with('error', 'Update gagal: ' . $e->getMessage());
+        }
     }
 
     /**
