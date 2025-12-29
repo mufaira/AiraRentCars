@@ -47,15 +47,15 @@
     <body class="bg-black dark:bg-black text-white dark:text-white antialiased selection:bg-[#f53003] selection:text-white">
 
         <header class="fixed top-0 z-50 w-full glass-nav border-b border-gray-200/50 dark:border-white/10 transition-all duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-20">
-                    <a href="/" class="flex items-center gap-2 group cursor-pointer">
-                        <div class="bg-[#f53003] text-white p-2 rounded-lg transform group-hover:rotate-12 transition duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16 sm:h-20">
+                    <a href="/" class="flex items-center gap-2 group cursor-pointer flex-shrink-0">
+                        <div class="bg-[#f53003] text-white p-1.5 sm:p-2 rounded-lg transform group-hover:rotate-12 transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                         </div>
-                        <span class="text-2xl font-extrabold tracking-tight">Drive<span class="text-[#f53003]">Hub</span></span>
+                        <span class="text-lg sm:text-2xl font-extrabold tracking-tight whitespace-nowrap">Drive<span class="text-[#f53003]">Hub</span></span>
                     </a>
 
                     <nav class="hidden md:flex items-center gap-8">
@@ -64,9 +64,9 @@
                         <a href="/#reservasi" class="text-sm font-medium hover:text-[#f53003] transition">Cara Pesan</a>
                     </nav>
 
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="px-5 py-2.5 text-sm font-bold text-white bg-[#f53003] rounded-full hover:bg-[#d63000] hover:shadow-lg hover:shadow-orange-500/30 transition transform hover:-translate-y-0.5">
+                            <a href="{{ url('/dashboard') }}" class="hidden sm:block px-4 py-2.5 text-sm font-bold text-white bg-[#f53003] rounded-full hover:bg-[#d63000] hover:shadow-lg hover:shadow-orange-500/30 transition transform hover:-translate-y-0.5">
                                 Dashboard
                             </a>
                         @else
@@ -74,17 +74,67 @@
                                 Masuk
                             </a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="px-5 py-2.5 text-sm font-bold text-black bg-white rounded-full hover:bg-gray-200 hover:shadow-lg transition transform hover:-translate-y-0.5">
+                                <a href="{{ route('register') }}" class="hidden sm:block px-4 py-2 text-sm font-bold text-black bg-white rounded-full hover:bg-gray-200 hover:shadow-lg transition">
                                     Daftar Sekarang
                                 </a>
                             @endif
                         @endauth
+                        
+                        <button id="mobileMenuBtn" class="md:hidden p-2 text-white hover:text-[#f53003] transition rounded-lg">
+                            <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                            <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
+                </div>
+
+                <!-- Mobile Menu -->
+                <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 py-4 space-y-3">
+                    <a href="/" class="block px-4 py-2 text-sm font-medium hover:text-[#f53003] hover:bg-white/5 rounded transition">Beranda</a>
+                    <a href="{{ route('cars.catalog') }}" class="block px-4 py-2 text-sm font-medium text-[#f53003] hover:bg-white/5 rounded transition">Katalog</a>
+                    <a href="/#reservasi" class="block px-4 py-2 text-sm font-medium hover:text-[#f53003] hover:bg-white/5 rounded transition">Cara Pesan</a>
+                    @guest
+                        <div class="border-t border-white/10 pt-3 space-y-2">
+                            <a href="{{ route('login') }}" class="block px-4 py-2 text-sm font-bold hover:text-[#f53003] transition">Masuk</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="block px-4 py-2 text-sm font-bold text-black bg-white rounded-lg hover:bg-gray-200 transition">Daftar Sekarang</a>
+                            @endif
+                        </div>
+                    @else
+                        <div class="border-t border-white/10 pt-3">
+                            <a href="{{ url('/dashboard') }}" class="block px-4 py-2 text-sm font-bold text-white bg-[#f53003] rounded-lg hover:bg-[#d63000] transition">Dashboard</a>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </header>
 
-        <main class="pt-32 pb-24">
+        <script>
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            const closeIcon = document.getElementById('closeIcon');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+
+            // Close menu when clicking on a link
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                });
+            });
+        </script>
+
+        <main class="pt-20 sm:pt-32 pb-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Breadcrumb -->
                 <div class="mb-8">

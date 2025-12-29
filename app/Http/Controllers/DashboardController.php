@@ -31,13 +31,13 @@ class DashboardController extends Controller
         
         // Rental Trends (last 7 days) - SQLite compatible
         $rentalTrends = Rental::select(
-            DB::raw("strftime('%Y-%m-%d', rental_date) as date"),
+            DB::raw("rental_date as date"),
             DB::raw('COUNT(*) as count')
         )
-        ->where('rental_date', '>=', now()->subDays(7))
+        ->where('rental_date', '>=', now()->subDays(7)->format('Y-m-d'))
         ->whereNotNull('rental_date')
-        ->groupByRaw("strftime('%Y-%m-%d', rental_date)")
-        ->orderByRaw("strftime('%Y-%m-%d', rental_date)")
+        ->groupByRaw("rental_date")
+        ->orderByRaw("rental_date")
         ->get();
         
         $trendDates = $rentalTrends->isNotEmpty() ? $rentalTrends->pluck('date')->toArray() : [];
@@ -68,20 +68,19 @@ class DashboardController extends Controller
         
         // Monthly Revenue (SQLite compatible)
         $monthlyRevenue = Rental::select(
-            DB::raw("strftime('%m', rental_date) as month"),
-            DB::raw("strftime('%Y', rental_date) as year"),
+            DB::raw("substr(rental_date, 1, 7) as month_year"),
             DB::raw('SUM(total_price) as revenue')
         )
         ->where('status', 'Selesai')
         ->whereNotNull('rental_date')
-        ->groupByRaw("strftime('%Y', rental_date), strftime('%m', rental_date)")
-        ->orderByRaw("strftime('%Y', rental_date) desc, strftime('%m', rental_date) desc")
+        ->groupByRaw("substr(rental_date, 1, 7)")
+        ->orderByRaw("substr(rental_date, 1, 7) desc")
         ->limit(12)
         ->get();
         
         if ($monthlyRevenue->isNotEmpty()) {
             $monthlyLabels = $monthlyRevenue->map(function($item) {
-                return \Carbon\Carbon::createFromDate($item->year, $item->month, 1)->format('M Y');
+                return \Carbon\Carbon::createFromFormat('Y-m', $item->month_year)->format('M Y');
             })->reverse()->toArray();
             
             $monthlyValues = $monthlyRevenue->pluck('revenue')->reverse()->toArray();

@@ -36,14 +36,14 @@
 
             <?php if($blogs->count() > 0): ?>
                 <!-- Blog Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12">
                     <?php $__currentLoopData = $blogs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $blog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <a href="<?php echo e(route('blogs.show', $blog->slug)); ?>" class="group relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] via-[#1a1a1a] to-[#0a0a0a] border border-white/10 hover:border-[#f53003] rounded-2xl transition duration-300">
                             <!-- Animated Background -->
                             <div class="absolute inset-0 bg-gradient-to-r from-[#f53003]/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
                             
                             <!-- Image Container -->
-                            <div class="relative h-48 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                            <div class="relative h-40 sm:h-44 md:h-48 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
                                 <?php if($blog->featured_image): ?>
                                     <img src="<?php echo e(asset('storage/' . $blog->featured_image)); ?>" alt="<?php echo e($blog->title); ?>" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                                 <?php else: ?>
@@ -59,34 +59,34 @@
                             </div>
                             
                             <!-- Content -->
-                            <div class="p-6 relative z-10">
+                            <div class="p-3 sm:p-4 md:p-6 relative z-10">
                                 <!-- Author Info -->
-                                <div class="flex items-center gap-2 mb-3">
-                                    <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode($blog->user->name)); ?>&background=random&color=fff" alt="<?php echo e($blog->user->name); ?>" class="w-6 h-6 rounded-full">
-                                    <span class="text-xs text-gray-400"><?php echo e($blog->user->name); ?></span>
+                                <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode($blog->user->name)); ?>&background=random&color=fff" alt="<?php echo e($blog->user->name); ?>" class="w-5 sm:w-6 h-5 sm:h-6 rounded-full">
+                                    <span class="text-xs text-gray-400 line-clamp-1"><?php echo e($blog->user->name); ?></span>
                                 </div>
                                 
                                 <!-- Title -->
-                                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[#f53003] transition line-clamp-2">
+                                <h3 class="text-sm sm:text-base md:text-lg font-bold text-white mb-1 sm:mb-2 group-hover:text-[#f53003] transition line-clamp-2">
                                     <?php echo e($blog->title); ?>
 
                                 </h3>
                                 
                                 <!-- Excerpt -->
                                 <?php if($blog->excerpt): ?>
-                                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                                    <p class="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
                                         <?php echo e($blog->excerpt); ?>
 
                                     </p>
                                 <?php endif; ?>
                                 
                                 <!-- Footer -->
-                                <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                <div class="flex items-center justify-between pt-3 sm:pt-4 border-t border-white/10">
                                     <span class="text-xs text-gray-500">
                                         <?php echo e($blog->published_at->format('d M Y')); ?>
 
                                     </span>
-                                    <div class="flex items-center gap-1 text-[#f53003] font-bold group-hover:gap-2 transition">
+                                    <div class="flex items-center gap-1 text-[#f53003] font-bold text-xs sm:text-sm group-hover:gap-2 transition">
                                         <span class="text-sm">Baca</span>
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

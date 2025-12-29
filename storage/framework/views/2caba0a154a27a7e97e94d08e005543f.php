@@ -1,8 +1,17 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-2xl mx-auto">
         <!-- Back Button -->
-        <a href="{{ route('rentals.show', $rental) }}" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold mb-8 transition group">
+        <a href="<?php echo e(route('rentals.show', $rental)); ?>" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold mb-8 transition group">
             <svg class="w-5 h-5 group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -29,7 +38,7 @@
                         <div>
                             <p class="text-amber-900 font-bold text-sm mb-1">Perhatian Penting</p>
                             <p class="text-amber-800 text-sm leading-relaxed">
-                                Anda sedang mengajukan refund untuk rental <span class="font-bold text-amber-900">{{ $rental->car->name }}</span>. 
+                                Anda sedang mengajukan refund untuk rental <span class="font-bold text-amber-900"><?php echo e($rental->car->name); ?></span>. 
                                 Admin akan meninjau permintaan Anda dan menghubungi Anda dalam waktu <span class="font-bold">1-2 hari kerja</span>.
                             </p>
                         </div>
@@ -47,38 +56,38 @@
                     <div class="grid grid-cols-2 gap-6 text-sm">
                         <div class="bg-white rounded-lg p-4 border border-slate-200">
                             <p class="text-slate-600 text-xs font-semibold uppercase tracking-wide mb-2">Mobil</p>
-                            <p class="text-slate-900 font-bold text-base">{{ $rental->car->name }}</p>
+                            <p class="text-slate-900 font-bold text-base"><?php echo e($rental->car->name); ?></p>
                         </div>
                         <div class="bg-white rounded-lg p-4 border border-slate-200">
                             <p class="text-slate-600 text-xs font-semibold uppercase tracking-wide mb-2">Tanggal Sewa</p>
-                            <p class="text-slate-900 font-bold text-base">{{ $rental->rental_date->format('d M Y') }}</p>
+                            <p class="text-slate-900 font-bold text-base"><?php echo e($rental->rental_date->format('d M Y')); ?></p>
                         </div>
                         <div class="bg-white rounded-lg p-4 border border-slate-200">
                             <p class="text-slate-600 text-xs font-semibold uppercase tracking-wide mb-2">Durasi</p>
-                            <p class="text-slate-900 font-bold text-base">{{ $rental->duration_days }} hari</p>
+                            <p class="text-slate-900 font-bold text-base"><?php echo e($rental->duration_days); ?> hari</p>
                         </div>
                         <div class="bg-white rounded-lg p-4 border border-slate-200">
                             <p class="text-slate-600 text-xs font-semibold uppercase tracking-wide mb-2">Total Harga</p>
-                            <p class="text-red-600 font-bold text-base">Rp {{ number_format($rental->total_price, 0, ',', '.') }}</p>
+                            <p class="text-red-600 font-bold text-base">Rp <?php echo e(number_format($rental->total_price, 0, ',', '.')); ?></p>
                         </div>
                         <div class="bg-white rounded-lg p-4 border border-slate-200">
                             <p class="text-slate-600 text-xs font-semibold uppercase tracking-wide mb-2">Status Rental</p>
-                            <p class="text-slate-900 font-bold text-base">{{ $rental->status }}</p>
+                            <p class="text-slate-900 font-bold text-base"><?php echo e($rental->status); ?></p>
                         </div>
                         <div class="bg-white rounded-lg p-4 border border-slate-200">
                             <p class="text-slate-600 text-xs font-semibold uppercase tracking-wide mb-2">Status Pembayaran</p>
-                            @if ($rental->payment)
-                                <p class="text-slate-900 font-bold text-base">{{ $rental->payment->status }}</p>
-                            @else
+                            <?php if($rental->payment): ?>
+                                <p class="text-slate-900 font-bold text-base"><?php echo e($rental->payment->status); ?></p>
+                            <?php else: ?>
                                 <p class="text-slate-400 font-bold text-base">-</p>
-                            @endif
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
 
                 <!-- Refund Form -->
-                <form action="{{ route('refunds.store', $rental) }}" method="POST" class="space-y-8">
-                    @csrf
+                <form action="<?php echo e(route('refunds.store', $rental)); ?>" method="POST" class="space-y-8">
+                    <?php echo csrf_field(); ?>
 
                     <!-- Reason Selection -->
                     <div>
@@ -123,26 +132,49 @@
                             </label>
                         </div>
 
-                        @error('reason')
+                        <?php $__errorArgs = ['reason'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                             <span class="text-red-600 text-sm font-semibold block mt-3 flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                                {{ $message }}
+                                <?php echo e($message); ?>
+
                             </span>
-                        @enderror
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <!-- Custom Reason -->
                     <div id="customReasonSection" class="hidden">
                         <label class="block text-lg font-bold text-slate-900 mb-3">Jelaskan Alasan Refund Anda</label>
                         <textarea name="custom_reason" rows="5" 
-                                  class="w-full border-2 border-slate-300 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 resize-none text-base font-medium @error('custom_reason') border-red-500 @enderror"
+                                  class="w-full border-2 border-slate-300 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 resize-none text-base font-medium <?php $__errorArgs = ['custom_reason'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                   placeholder="Jelaskan secara detail alasan Anda ingin melakukan refund..."></textarea>
-                        @error('custom_reason')
+                        <?php $__errorArgs = ['custom_reason'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                             <span class="text-red-600 text-sm font-semibold block mt-2 flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                                {{ $message }}
+                                <?php echo e($message); ?>
+
                             </span>
-                        @enderror
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <!-- Action Buttons -->
@@ -153,7 +185,7 @@
                             </svg>
                             Ajukan Refund
                         </button>
-                        <a href="{{ route('rentals.show', $rental) }}" class="flex-1 bg-slate-400 hover:bg-slate-500 text-white font-bold py-4 px-6 rounded-lg transition transform hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-2 text-lg">
+                        <a href="<?php echo e(route('rentals.show', $rental)); ?>" class="flex-1 bg-slate-400 hover:bg-slate-500 text-white font-bold py-4 px-6 rounded-lg transition transform hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-2 text-lg">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                             </svg>
@@ -184,4 +216,14 @@
         selectReason(selectedReason || '');
     });
 </script>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH D:\UAS PEMWEB\Part 3\resources\views/refunds/create.blade.php ENDPATH**/ ?>

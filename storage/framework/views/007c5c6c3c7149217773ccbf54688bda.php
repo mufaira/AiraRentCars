@@ -52,22 +52,22 @@
         <!-- Header -->
         <header class="fixed top-0 z-50 w-full glass-nav border-b border-gray-200/50 dark:border-white/10 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-20">
+                <div class="flex items-center justify-between h-16 sm:h-20">
                     <a href="/" class="flex items-center gap-2 group cursor-pointer">
                         <div class="bg-[#f53003] text-white p-2 rounded-lg transform group-hover:rotate-12 transition duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 sm:h-6 w-5 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                         </div>
-                        <span class="text-2xl font-extrabold tracking-tight">Drive<span class="text-[#f53003]">Hub</span></span>
+                        <span class="text-lg sm:text-2xl font-extrabold tracking-tight">Drive<span class="text-[#f53003]">Hub</span></span>
                     </a>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-32 sm:pt-0 bg-black">
-            <div class="w-full sm:max-w-md mt-6 px-6 py-8 bg-[#1a1a1a] dark:bg-[#1a1a1a] shadow-2xl overflow-hidden sm:rounded-2xl border border-white/10">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-24 sm:pt-0 bg-black px-4">
+            <div class="w-full sm:max-w-md mt-4 sm:mt-6 px-5 sm:px-8 py-6 sm:py-8 bg-[#1a1a1a] dark:bg-[#1a1a1a] shadow-2xl overflow-hidden sm:rounded-2xl border border-white/10 rounded-xl">
                 <?php echo e($slot); ?>
 
             </div>

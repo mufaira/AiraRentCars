@@ -1,154 +1,72 @@
 <x-guest-layout>
-    <div class="mb-6 text-center">
-        <h2 class="text-3xl font-extrabold text-white mb-2">Buat Akun Baru</h2>
-        <p class="text-gray-400">Bergabunglah dengan ribuan pengguna DriveHub</p>
+    <!-- Back Button di Atas -->
+    <div class="mb-4 sm:mb-6 flex items-center justify-start">
+        <a href="/" class="inline-flex items-center gap-1 px-3 py-2 text-xs sm:text-sm font-bold text-gray-300 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Kembali
+        </a>
     </div>
 
-    <!-- Tab untuk memilih tipe pendaftaran -->
-    <div class="flex gap-3 mb-6">
-        <button type="button" id="user-tab" onclick="switchTab('user')" class="flex-1 py-2 px-4 rounded-lg font-semibold transition user-tab-btn bg-[#f53003] text-white">
-            Daftar sebagai Pengguna
-        </button>
-        <button type="button" id="admin-tab" onclick="switchTab('admin')" class="flex-1 py-2 px-4 rounded-lg font-semibold transition admin-tab-btn bg-gray-700 text-gray-300 hover:bg-gray-600">
-            Daftar sebagai Admin
-        </button>
+    <div class="mb-4 sm:mb-6 text-center">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-1 sm:mb-2">Buat Akun Baru</h2>
+        <p class="text-xs sm:text-sm text-gray-400">Bergabunglah dengan ribuan pengguna DriveHub</p>
     </div>
 
     <!-- Form User Biasa -->
-    <form method="POST" action="{{ route('register') }}" id="user-form">
+    <form method="POST" action="{{ route('register') }}" class="space-y-4 sm:space-y-5">
         @csrf
 
         <!-- Name -->
-        <div class="mb-4">
-            <x-input-label for="name" :value="__('Nama Lengkap')" />
-            <x-text-input id="name" class="block mt-2 w-full" type="text" name="name" :value="old('name')" placeholder="Nama lengkap" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div>
+            <x-input-label for="name" :value="__('Nama Lengkap')" class="text-xs sm:text-sm" />
+            <x-text-input id="name" class="block mt-2 w-full text-sm" type="text" name="name" :value="old('name')" placeholder="Nama lengkap" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2 text-xs" />
         </div>
 
         <!-- Email Address -->
-        <div class="mb-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-2 w-full" type="email" name="email" :value="old('email')" placeholder="Email Anda" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div>
+            <x-input-label for="email" :value="__('Email')" class="text-xs sm:text-sm" />
+            <x-text-input id="email" class="block mt-2 w-full text-sm" type="email" name="email" :value="old('email')" placeholder="Email Anda" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2 text-xs" />
         </div>
 
         <!-- Password -->
-        <div class="mb-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div>
+            <x-input-label for="password" :value="__('Password')" class="text-xs sm:text-sm" />
 
-            <x-text-input id="password" class="block mt-2 w-full"
+            <x-text-input id="password" class="block mt-2 w-full text-sm"
                             type="password"
                             name="password"
                             placeholder="Buat password"
                             required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2 text-xs" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mb-6">
-            <x-input-label for="password_confirmation" :value="__('Konfirmasi Password')" />
+        <div>
+            <x-input-label for="password_confirmation" :value="__('Konfirmasi Password')" class="text-xs sm:text-sm" />
 
-            <x-text-input id="password_confirmation" class="block mt-2 w-full"
+            <x-text-input id="password_confirmation" class="block mt-2 w-full text-sm"
                             type="password"
                             name="password_confirmation" placeholder="Ulangi password" required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-xs" />
         </div>
 
-        <div class="flex items-center justify-between mt-6">
-            <a class="text-sm text-[#f53003] hover:text-[#ff8c00] transition" href="{{ route('login') }}">
-                {{ __('Sudah punya akun?') }}
-            </a>
-
-            <x-primary-button>
+        <div class="flex flex-col items-center justify-center gap-3 mt-6 sm:mt-8">
+            <x-primary-button class="w-full">
                 {{ __('Daftar') }}
             </x-primary-button>
         </div>
     </form>
 
-    <!-- Form Admin -->
-    <form method="POST" action="{{ route('register.admin') }}" id="admin-form" style="display: none;">
-        @csrf
-
-        <!-- Name -->
-        <div class="mb-4">
-            <x-input-label for="admin_name" :value="__('Nama Lengkap')" />
-            <x-text-input id="admin_name" class="block mt-2 w-full" type="text" name="name" :value="old('name')" placeholder="Nama lengkap" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mb-4">
-            <x-input-label for="admin_email" :value="__('Email')" />
-            <x-text-input id="admin_email" class="block mt-2 w-full" type="email" name="email" :value="old('email')" placeholder="Email Anda" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mb-4">
-            <x-input-label for="admin_password" :value="__('Password')" />
-
-            <x-text-input id="admin_password" class="block mt-2 w-full"
-                            type="password"
-                            name="password"
-                            placeholder="Buat password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mb-6">
-            <x-input-label for="admin_password_confirmation" :value="__('Konfirmasi Password')" />
-
-            <x-text-input id="admin_password_confirmation" class="block mt-2 w-full"
-                            type="password"
-                            name="password_confirmation" placeholder="Ulangi password" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <!-- Info Admin -->
-        <div class="mb-6 p-4 bg-yellow-900 border border-yellow-700 rounded-lg">
-            <p class="text-yellow-200 text-sm">
-                <strong>Catatan:</strong> Akun admin memiliki akses penuh ke sistem termasuk manajemen pengguna, mobil, dan laporan.
-            </p>
-        </div>
-
-        <div class="flex items-center justify-between mt-6">
-            <a class="text-sm text-[#f53003] hover:text-[#ff8c00] transition" href="{{ route('login') }}">
-                {{ __('Sudah punya akun?') }}
-            </a>
-
-            <x-primary-button>
-                {{ __('Daftar sebagai Admin') }}
-            </x-primary-button>
-        </div>
-    </form>
-
-    <script>
-        function switchTab(tab) {
-            const userForm = document.getElementById('user-form');
-            const adminForm = document.getElementById('admin-form');
-            const userTabBtn = document.getElementById('user-tab');
-            const adminTabBtn = document.getElementById('admin-tab');
-
-            if (tab === 'user') {
-                userForm.style.display = 'block';
-                adminForm.style.display = 'none';
-                userTabBtn.classList.remove('bg-gray-700', 'text-gray-300', 'hover:bg-gray-600');
-                userTabBtn.classList.add('bg-[#f53003]', 'text-white');
-                adminTabBtn.classList.remove('bg-[#f53003]', 'text-white');
-                adminTabBtn.classList.add('bg-gray-700', 'text-gray-300', 'hover:bg-gray-600');
-            } else if (tab === 'admin') {
-                userForm.style.display = 'none';
-                adminForm.style.display = 'block';
-                adminTabBtn.classList.remove('bg-gray-700', 'text-gray-300', 'hover:bg-gray-600');
-                adminTabBtn.classList.add('bg-[#f53003]', 'text-white');
-                userTabBtn.classList.remove('bg-[#f53003]', 'text-white');
-                userTabBtn.classList.add('bg-gray-700', 'text-gray-300', 'hover:bg-gray-600');
-            }
-        }
-    </script>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-white/10">
+        <span class="text-xs sm:text-sm text-gray-400">{{ __('Sudah punya akun?') }}</span>
+        <a class="text-xs sm:text-sm text-[#f53003] hover:text-[#ff8c00] transition font-medium" href="{{ route('login') }}">
+            {{ __('Masuk sekarang') }}
+        </a>
+    </div>
 </x-guest-layout>
